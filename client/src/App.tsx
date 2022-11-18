@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import MissingPage from "./pages/MissingPage";
+import Home from "./pages/Home";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Container } from "@mui/material";
+import { blue, brown, purple } from "@mui/material/colors";
 
 function App() {
-  const [count, setCount] = useState(0)
+    const darkTheme = createTheme({
+        palette: {
+            mode: "dark",
+            primary: {
+                main: brown[400],
+            },
+        },
+    });
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    return (
+        <Container sx={{ height: "100vh" }}>
+            <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
+                <BrowserRouter>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/" element={<MissingPage />} />
+                    </Routes>
+                </BrowserRouter>
+            </ThemeProvider>
+        </Container>
+    );
 }
 
-export default App
+export default App;
