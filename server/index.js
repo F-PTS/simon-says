@@ -16,7 +16,11 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
 io.on("connection", (socket) => {
+<<<<<<< HEAD
     socket.broadcast.emit("test", "connection from server");
+=======
+    console.log("a user connected");
+>>>>>>> origin/2-websocket-server-setup
 });
 app.listen(port, () => {
     console.log("listening on *:3000");
