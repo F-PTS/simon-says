@@ -16,7 +16,7 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html");
 });
 io.on("connection", (socket) => {
-    console.log("a user connected");
+    socket.broadcast.emit("test", "connection from server");
 });
 app.listen(port, () => {
     console.log("listening on *:3000");
