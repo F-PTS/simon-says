@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-    socket.broadcast.emit("a user connected");
+    socket.broadcast.emit("test", "connection from server");
 });
 
 app.listen(port, () => {
