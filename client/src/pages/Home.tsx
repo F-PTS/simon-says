@@ -1,12 +1,17 @@
 import { Box, Button, Link, Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 import React from "react";
+import JoinGame from "./JoinGame";
+import NewGame from "./NewGame";
 
 function Home() {
     const homeStyles = {
         width: "50%",
         padding: "10px",
     };
+
+    const navigate = useNavigate();
 
     return (
         <Stack
@@ -21,15 +26,33 @@ function Home() {
                 play simon says with your friends!
             </Typography>
 
-            <Button variant="contained" sx={homeStyles}>
+            <Button
+                variant="contained"
+                sx={homeStyles}
+                onClick={() => {
+                    navigate("/NewGame");
+                }}
+            >
                 New Game
             </Button>
 
-            <Button variant="outlined" sx={homeStyles}>
+            <Button
+                variant="outlined"
+                sx={homeStyles}
+                onClick={() => {
+                    navigate("/JoinGame");
+                }}
+            >
                 Join Game
             </Button>
 
-            <Button variant="text" sx={homeStyles}>
+            <Button
+                variant="text"
+                sx={homeStyles}
+                onClick={() => {
+                    navigate("/GameRules");
+                }}
+            >
                 Game rules
             </Button>
 
