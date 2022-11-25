@@ -9,8 +9,17 @@ const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   "http://localhost:3000"
 );
 
+const genRoomID = () => {
+  const code = (
+    Math.floor(Math.random() * (1_000_000 - 100_000)) + 100_000
+  ).toString();
+
+  return code;
+};
+
 function NewGame() {
   const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+  const [roomID, setRoomID] = useState<string | null>(null);
   const [lastPong, setLastPong] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,18 +42,14 @@ function NewGame() {
     };
   }, []);
 
-  const sendPing = () => {
-    socket.emit("ping");
-  };
-
   return (
     <>
       <p>you are currently {isConnected ? "connected" : "disconnected"}</p>
-      <Button variant="contained" onClick={sendPing}>
-        Send Ping
+      <Button variant="contained" onClick={() => setRoomID(genRoomID())}>
+        Generate New Room
       </Button>
 
-      <h3>Last Ping: {lastPong}</h3>
+      {roomID && <h1>Room Code: {roomID}</h1>}
     </>
   );
 }
