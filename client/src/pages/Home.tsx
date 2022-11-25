@@ -1,13 +1,17 @@
-import { Box, Button, Link as L, Stack, Typography } from "@mui/material";
+import { Box, Button, Link, Stack, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 import React from "react";
-import { Link } from "react-router-dom";
+import JoinGame from "./JoinGame";
+import NewGame from "./NewGame";
 
 function Home() {
   const homeStyles = {
     width: "50%",
     padding: "10px",
   };
+
+  const navigate = useNavigate();
 
   return (
     <Stack
@@ -21,23 +25,36 @@ function Home() {
       <Typography variant="h6">play simon says with your friends!</Typography>
 
       <Button
-        component={Link}
-        to="/new-game"
         variant="contained"
         sx={homeStyles}
+        onClick={() => {
+          navigate("/NewGame");
+        }}
       >
         New Game
       </Button>
 
-      <Button variant="outlined" sx={homeStyles}>
+      <Button
+        variant="outlined"
+        sx={homeStyles}
+        onClick={() => {
+          navigate("/JoinGame");
+        }}
+      >
         Join Game
       </Button>
 
-      <Button variant="text" sx={homeStyles}>
+      <Button
+        variant="text"
+        sx={homeStyles}
+        onClick={() => {
+          navigate("/GameRules");
+        }}
+      >
         Game rules
       </Button>
 
-      <L
+      <Link
         href="https://github.com/F-PTS/simon-says"
         underline="none"
         target="_blank"
@@ -46,7 +63,7 @@ function Home() {
         <Typography variant="caption" color={grey[700]}>
           project source code
         </Typography>
-      </L>
+      </Link>
     </Stack>
   );
 }
