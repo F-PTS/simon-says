@@ -1,3 +1,0 @@
-interface InterServerEvents {
-    ping: () => void;
-}
