@@ -22,6 +22,15 @@ function NewGame() {
   const [roomID, setRoomID] = useState<string | null>(null);
   const [lastPong, setLastPong] = useState<string | null>(null);
 
+  const createNewRoom = () => {
+    const code = genRoomID();
+    setRoomID(code);
+  };
+
+  useEffect(() => {
+    if (roomID) socket.emit("roomCreation", roomID);
+  }, [roomID]);
+
   useEffect(() => {
     socket.on("connect", () => {
       setIsConnected(true);
@@ -35,17 +44,25 @@ function NewGame() {
       setLastPong(new Date().toISOString());
     });
 
+    socket.on("roomJoined", (msg) => {
+      socket.on("hello", () => {
+        console.log("I recieved hello");
+      });
+
+      console.log(msg);
+    });
     return () => {
       socket.off("connect");
       socket.off("disconnect");
       socket.off("pong");
+      socket.off("roomJoined");
     };
   }, []);
 
   return (
     <>
       <p>you are currently {isConnected ? "connected" : "disconnected"}</p>
-      <Button variant="contained" onClick={() => setRoomID(genRoomID())}>
+      <Button variant="contained" onClick={createNewRoom}>
         Generate New Room
       </Button>
 

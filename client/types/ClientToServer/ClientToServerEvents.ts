@@ -1,3 +1,0 @@
-interface ClientToServerEvents {
-    hello: () => void;
-}
