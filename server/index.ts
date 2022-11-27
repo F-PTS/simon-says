@@ -1,11 +1,15 @@
 import express, { Express } from "express";
-import dotenv from "dotenv";
 import { Server } from "socket.io";
 import cors from "cors";
 
-dotenv.config();
-
 const app: Express = express();
+
+import ClientToServerEvents from '../types/ClientToServer/ClientToServerEvents';
+import ServerToClientEvents from '../types/ServerToClient/ServerToClientEvents';
+import InterServerEvents from '../types/InterServer/InterServerEvents';
+import SocketData from '../types/SocketData/SocketData';
+
+
 app.use(cors());
 
 const port = process.env.PORT;
@@ -16,14 +20,21 @@ const io = new Server<
     SocketData
 >();
 
-app.get("/", (req, res) => {
-    res.sendFile(__dirname + "/index.html");
-});
-
 io.on("connection", (socket) => {
-    socket.broadcast.emit("test", "connection from server");
-});
+    socket.emit('connected')
 
-app.listen(port, () => {
-    console.log("listening on *:3000");
+    socket.on("disconnect", () => {
+        socket.emit("disconnected");
+    });
+
+    socket.on("ping", () => {
+        socket.emit('pong');
+    });
+
+    socket.on('roomCreation', (roomID) => {
+        socket.join(roomID);
+        socket.emit('roomJoined', `I have joined ${roomID} room.`)
+        io.to(roomID).emit("hello")
+    })
+
 });
